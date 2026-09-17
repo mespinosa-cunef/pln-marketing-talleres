@@ -92,8 +92,10 @@ proyecto.
 ## Antes de salir
 
 - [ ] `data/clean/corpus_preprocesado.csv` existe.
-- [ ] Las **cuatro decisiones** están en `docs/bitacora.md`, con el motivo.
-- [ ] Para cada decisión hay un ejemplo concreto que la respalda.
+- [ ] La entrada **«Preprocesamiento del corpus»** de `docs/bitacora.md` está rellenada. La
+      última celda del notebook imprime la tabla con vuestra configuración: pegadla y
+      completad las columnas **«Por qué»** y **«Ejemplo del corpus»** de las cuatro
+      decisiones. Esas dos columnas son las que se evalúan.
 - [ ] Habéis ejecutado la sección 10 dos veces, con `CONSERVAR_NEGACIONES` en `True` y en
       `False`, y sabéis explicar la diferencia.
 - [ ] El notebook está confirmado en el repositorio.

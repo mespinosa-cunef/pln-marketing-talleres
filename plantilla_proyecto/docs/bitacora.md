@@ -21,6 +21,26 @@ Una entrada por decisión. Formato: qué se decidió, por qué, y qué se descar
 **Qué se comprobó antes:** (¿la API funciona? ¿cuántos documentos devuelve? ¿tiene límite?)
 **Alternativas descartadas:**
 
+## [Fecha] · Preprocesamiento del corpus
+
+Se rellena en el taller de la semana 3. La última celda de
+`notebooks/01_preprocesamiento.ipynb` imprime esta tabla ya rellenada con vuestra
+configuración: pegadla y **completad las dos últimas columnas**, que son las que se evalúan.
+
+| Decisión | Qué elegimos | Por qué | Ejemplo del corpus que lo justifica |
+|---|---|---|---|
+| 1 · Tokenizador | | | |
+| 2 · Minúsculas (¿y antes o después de lematizar?) | | | |
+| 3 · Stopwords (¿se conservan las negaciones?) | | | |
+| 4 · Stemming o lematización | | | |
+
+**Qué se descartó y por qué:**
+
+**Limitaciones que asumimos:** (p. ej. el modelo no separa los pronombres pegados al verbo,
+así que `devolverlo` y `devolver` cuentan como formas distintas)
+
+**Efecto medido:** vocabulario antes → después, y qué fenómenos del texto se han perdido.
+
 ---
 
 # Anexo · uso de IA generativa
