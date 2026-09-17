@@ -5,3 +5,9 @@ __pycache__/
 Thumbs.db
 desktop.ini
 .venv/
+
+# --- Datos ---
+# Al ejecutar notebooks/ se crea data/ en la raiz del repositorio. No se sube:
+# el corpus del taller no se redistribuye y los resultados son reproducibles
+# ejecutando el notebook.
+data/
