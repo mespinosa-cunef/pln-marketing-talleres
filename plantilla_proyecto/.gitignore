@@ -1,0 +1,37 @@
+# --- Claves de acceso: NUNCA se suben ---
+# Un token es una contraseña. Una vez subido queda en el historial de git
+# aunque lo borréis en el commit siguiente.
+.env
+.env.*
+!.env.example
+*.key
+*credentials*
+*secret*
+
+# --- Datos crudos: no van al repositorio ---
+# Por tamaño y, sobre todo, porque pueden contener datos personales.
+# En data/sample/ sí se sube una muestra pequeña y anonimizada.
+data/raw/*
+!data/raw/.gitkeep
+data/clean/*
+!data/clean/.gitkeep
+data/analytic/*
+!data/analytic/.gitkeep
+
+# --- Entorno y temporales ---
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Modelos y ficheros pesados ---
+*.bin
+*.pt
+*.h5
+*.pkl

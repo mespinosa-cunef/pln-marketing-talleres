@@ -1,0 +1,628 @@
+<title>Taller GitHub · PLN y Marketing</title>
+
+<style>
+  :root{
+    --orange:#FF5700;
+    --navy:#1A1F6C;
+    --amber:#FE961F;
+    --teal:#0796A3;
+    --berry:#AE3C7C;
+    --beige:#E6E2DC;
+    --beige-2:#D6D1C4;
+    --ink:#1A1A1A;
+    --ink-soft:#524F48;
+    --ink-faint:#8A857A;
+    --surface:#FFFFFF;
+    --surface-2:#F4F2EE;
+    --line:#E3DFD6;
+    --shadow: 0 1px 2px rgba(20,20,15,0.05), 0 8px 24px -10px rgba(20,20,15,0.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+  body{
+    margin:0; background:var(--ink); color:var(--ink);
+    font-family:Arial, Helvetica, "Helvetica Neue", sans-serif;
+  }
+  h1,h2,h3,h4{font-family:Arial, Helvetica, sans-serif; margin:0; font-weight:700;}
+  .eyebrow{
+    font-size:.72rem; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--orange); font-weight:700; margin:0 0 .55rem;
+  }
+  .cite{
+    font-size:.62rem; color:var(--ink-faint);
+    position:absolute; right:6%; bottom:4.2%; text-align:right; max-width:36%; line-height:1.4;
+  }
+
+  /* ---------- brand marks (fixed, repeat on every printed page) ---------- */
+  #brandmark{ position:fixed; top:22px; left:26px; z-index:40; color:var(--orange); width:78px; }
+  #brandmark svg{ display:block; width:100%; height:auto; }
+  #pagefooter{
+    position:fixed; left:26px; bottom:18px; z-index:40;
+    font-size:.62rem; color:var(--ink-faint); display:flex; align-items:center; gap:.5rem;
+  }
+  #pagefooter .tick{ width:16px; height:2px; background:var(--orange); display:inline-block; }
+  .slide.title #brandmark, .slide.title #pagefooter{ }
+
+  /* ---------- deck shell ---------- */
+  #deck{ scroll-snap-type:y mandatory; overflow-y:scroll; height:100vh; width:100vw; }
+  .slide{
+    scroll-snap-align:start; width:100vw; height:100vh; position:relative;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:5.2vh 6.5vw; background:var(--surface); color:var(--ink); overflow:hidden;
+  }
+  .slide .idx{
+    position:absolute; right:6.5vw; bottom:4.2%; font-size:.68rem;
+    color:var(--orange); font-weight:700; font-variant-numeric:tabular-nums;
+  }
+
+  /* rings decoration (CSS-only, no raster asset) */
+  .ring{ position:absolute; border-radius:50%; pointer-events:none; }
+  .ring.big{ background:repeating-radial-gradient(circle at center, transparent 0 11px, var(--orange) 11px 12.4px, transparent 12.4px 15px); }
+  .ring.small{ background:repeating-radial-gradient(circle at center, transparent 0 9px, var(--navy) 9px 10.2px, transparent 10.2px 12.5px); }
+
+  /* ---------- title / divider / closing (beige "Portada/Portadilla/Cierre") ---------- */
+  .slide.title, .slide.divider, .slide.closing{
+    background:var(--beige); color:var(--ink); align-items:flex-start;
+  }
+  .slide.title .ring.big{ width:1150px; height:1150px; top:-300px; right:-420px; opacity:.9; }
+  .slide.title .ring.small{ width:560px; height:560px; bottom:-260px; left:-200px; opacity:.9; }
+  .slide.divider .ring.big, .slide.closing .ring.big{ width:1050px; height:1050px; top:-320px; right:-340px; opacity:.4; }
+  .slide.divider .ring.small, .slide.closing .ring.small{ width:640px; height:640px; bottom:-280px; left:-220px; opacity:.35; }
+
+  .slide.title h1{ font-size:clamp(2rem,4.6vw,3.3rem); font-weight:700; color:var(--orange); line-height:1.1; position:relative; z-index:2; max-width:20ch; }
+  .slide.title .sub{ font-size:clamp(.9rem,1.25vw,1.05rem); color:var(--ink); opacity:.85; margin-top:1rem; max-width:42ch; line-height:1.5; position:relative; z-index:2; }
+  .slide.title .eyebrow{ position:relative; z-index:2; }
+
+  .slide.divider{ justify-content:center; }
+  .divider .num{ font-size:clamp(3.4rem,8vw,6rem); font-weight:700; color:var(--orange); line-height:1; position:relative; z-index:2; }
+  .divider .rule{ width:90px; height:3px; background:var(--orange); margin:.9rem 0; position:relative; z-index:2; }
+  .divider h2{ font-size:clamp(1.5rem,3.4vw,2.3rem); color:var(--ink); position:relative; z-index:2; max-width:24ch; }
+  .divider .session-tag{ font-size:.85rem; color:var(--ink-soft); margin-top:.7rem; position:relative; z-index:2; font-weight:700; }
+
+  /* ---------- content slides (white "Parrafo/Índice/Cifras") ---------- */
+  .slide.content h2{ font-size:clamp(1.3rem,2.4vw,1.95rem); font-weight:700; margin-bottom:1rem; color:var(--ink); }
+  .body-text{ font-size:clamp(.86rem,1.15vw,1rem); line-height:1.58; color:var(--ink-soft); max-width:74ch; }
+  .body-text strong{ color:var(--ink); font-weight:700; }
+  .body-text + .body-text{ margin-top:.6rem; }
+
+  .plain-list{ margin:.9rem 0 0; padding-left:1.2rem; color:var(--ink-soft); font-size:.87rem; line-height:1.55; max-width:70ch; }
+  .plain-list li{ margin-bottom:.4rem; }
+  .plain-list li strong{ color:var(--ink); }
+  .plain-list li::marker{ color:var(--orange); font-weight:700; }
+
+  /* agenda */
+  .agenda-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.1rem; margin-top:.4rem; }
+  .agenda-card{
+    background:var(--surface); border:1px solid var(--line); border-top:3px solid var(--orange); border-radius:4px; padding:1.1rem 1.1rem;
+    box-shadow:var(--shadow);
+  }
+  .agenda-card:nth-child(2){ border-top-color:var(--navy); }
+  .agenda-card:nth-child(3){ border-top-color:var(--teal); }
+  .agenda-card .n{ color:var(--orange); font-size:1.3rem; font-weight:700; }
+  .agenda-card:nth-child(2) .n{ color:var(--navy); }
+  .agenda-card:nth-child(3) .n{ color:var(--teal); }
+  .agenda-card h3{ font-size:.98rem; margin:.4rem 0 .35rem; }
+  .agenda-card p{ margin:0; font-size:.78rem; color:var(--ink-soft); line-height:1.48; }
+  .agenda-card .when{ margin-top:.55rem; font-size:.68rem; color:var(--ink-faint); font-weight:700; }
+  .agenda-note{
+    margin-top:1.2rem; font-size:.82rem; color:var(--ink-soft);
+    border-left:3px solid var(--orange); padding-left:.9rem;
+  }
+
+  /* concept sum */
+  .concept-row{ display:flex; align-items:center; gap:1rem; margin-top:1rem; flex-wrap:wrap; }
+  .concept-box{
+    background:var(--surface-2); border-radius:4px;
+    padding:.9rem 1.1rem; font-weight:700; font-size:.95rem; text-align:center;
+    flex:1; min-width:130px; color:var(--ink);
+  }
+  .concept-box span{ display:block; font-size:.72rem; font-weight:400; color:var(--ink-soft); margin-top:.3rem; }
+  .plus{ font-size:1.4rem; color:var(--ink-faint); font-weight:700; }
+  .eq{ font-size:1.6rem; color:var(--orange); font-weight:700; }
+
+  /* tag rows (3Cs / 4Ps) */
+  .tag-row{ display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; margin-top:.85rem; }
+  .tag-row .pill{ background:var(--surface-2); border-radius:20px; padding:.3rem .8rem; font-size:.82rem; color:var(--ink); }
+  .tag-row .pill.label{ background:var(--orange); color:#fff; font-size:.66rem; text-transform:uppercase; letter-spacing:.04em; font-weight:700; }
+  .tag-row:nth-of-type(2) .pill.label{ background:var(--navy); }
+
+  /* timeline */
+  .timeline-row{ display:flex; position:relative; margin-top:1.5rem; gap:1.2rem; }
+  .timeline-row::before{ content:""; position:absolute; top:8px; left:0; right:0; height:2px; background:var(--line); }
+  .tl-item{ flex:1; position:relative; }
+  .tl-item .marker{ width:14px; height:14px; border-radius:50%; background:var(--orange); position:relative; z-index:1; }
+  .tl-item:nth-child(2) .marker{ background:var(--navy); }
+  .tl-item .era{ font-weight:700; margin-top:.7rem; font-size:1rem; }
+  .tl-item .range{ font-size:.7rem; color:var(--orange); margin-top:.15rem; font-weight:700; }
+  .tl-item:nth-child(2) .range{ color:var(--navy); }
+  .tl-item .desc{ font-size:.82rem; color:var(--ink-soft); margin-top:.5rem; line-height:1.5; max-width:44ch; }
+
+  /* example boxes */
+  .example-box{ background:var(--surface-2); border-radius:4px; padding:.95rem 1.15rem; }
+  .example-box h4{ font-size:.68rem; text-transform:uppercase; letter-spacing:.04em; color:var(--orange); margin:0 0 .5rem; font-weight:700; }
+  .example-box .sentence{ font-family:"Courier New", monospace; font-size:.9rem; color:var(--ink); line-height:1.55; }
+  .example-box .sentence mark.subj{ background:rgba(255,87,0,.14); color:var(--orange); padding:.05rem .2rem; border-radius:3px; }
+  .example-box .sentence mark.obj{ background:rgba(26,31,108,.12); color:var(--navy); padding:.05rem .2rem; border-radius:3px; }
+  .example-box .sentence mark.coref{ background:rgba(174,60,124,.14); color:var(--berry); padding:.05rem .2rem; border-radius:3px; }
+  .example-box .gloss{ margin-top:.6rem; font-size:.78rem; color:var(--ink-soft); line-height:1.48; }
+  .example-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1.1rem; }
+  .example-grid.cols-3{ grid-template-columns:repeat(3,1fr); }
+
+  /* code block */
+  .code-block{
+    background:#1A1A1A; color:#F4F2EE; border-radius:6px; padding:.9rem 1.15rem;
+    font-family:"Courier New", monospace; font-size:.82rem; line-height:1.65; margin-top:1rem; max-width:70ch;
+  }
+  .code-block .c{ color:#B7AFA0; }
+  .code-block .o{ color:var(--amber); }
+
+  /* pipeline */
+  .pipeline{ display:flex; align-items:center; gap:.4rem; margin-top:1.2rem; flex-wrap:wrap; }
+  .pipe-box{
+    background:var(--surface-2); border-radius:4px; padding:.8rem .9rem;
+    flex:1; min-width:120px; text-align:center;
+  }
+  .pipe-box .t{ font-weight:700; font-size:.82rem; color:var(--ink); }
+  .pipe-box .s{ font-size:.62rem; color:var(--orange); margin-top:.3rem; display:block; font-weight:700; }
+  .arrow{ font-size:1.2rem; color:var(--orange); flex:0 0 auto; }
+  /* Rótulo pequeño para encabezar un .pipeline (existía solo en el deck del Tema 3). */
+  .pipe-label{ font-size:.66rem; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--ink-faint); font-weight:700; margin:1rem 0 0; }
+
+  /* Tabla de datos: se copia del deck del Tema 3, donde ya estaba definida. */
+  table.data-table{ width:100%; border-collapse:collapse; margin-top:.95rem; font-size:.76rem; }
+  table.data-table th, table.data-table td{ padding:.34rem .6rem; border-bottom:1px solid var(--line); text-align:left; font-variant-numeric:tabular-nums; }
+  table.data-table th{ font-size:.62rem; text-transform:uppercase; color:var(--ink-faint); letter-spacing:.03em; font-weight:700; }
+  table.data-table td:first-child{ color:var(--ink); }
+  .pipe-return{ font-size:.72rem; color:var(--ink-faint); margin-top:.6rem; text-align:right; }
+
+  /* layers */
+  .layers{ display:flex; flex-direction:column; gap:.45rem; margin-top:1rem; }
+  .layer{ display:flex; align-items:center; gap:1rem; border-radius:4px; padding:.6rem 1rem; background:var(--surface-2); }
+  .layer .tag{ font-size:.64rem; color:#fff; background:var(--orange); padding:.16rem .5rem; border-radius:20px; white-space:nowrap; min-width:11ch; text-align:center; font-weight:700; }
+  .layer:nth-child(2n) .tag{ background:var(--navy); }
+  .layer p{ margin:0; font-size:.8rem; color:var(--ink-soft); }
+  .layer p strong{ color:var(--ink); }
+
+  /* case grid */
+  .case-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:.85rem; margin-top:1rem; }
+  .case-grid.cols-4{ grid-template-columns:repeat(4,1fr); }
+  .case-card{ background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:.9rem .95rem; }
+  .case-card h3{ font-size:.88rem; margin:0 0 .35rem; color:var(--ink); }
+  .case-card p{ margin:0; font-size:.74rem; color:var(--ink-soft); line-height:1.42; }
+  .case-card .tag{ font-size:.62rem; color:var(--orange); margin-top:.45rem; display:block; font-weight:700; }
+
+  /* comparison columns */
+  .compare{ display:grid; gap:.95rem; margin-top:1.1rem; }
+  .compare.cols-2{ grid-template-columns:1fr 1fr; }
+  .compare.cols-3{ grid-template-columns:repeat(3,1fr); }
+  .comp-col{ background:var(--surface); border:1px solid var(--line); border-top:3px solid var(--orange); border-radius:4px; padding:.95rem 1.1rem; }
+  .compare.cols-2 .comp-col:nth-child(2){ border-top-color:var(--navy); }
+  .compare.cols-3 .comp-col:nth-child(2){ border-top-color:var(--navy); }
+  .compare.cols-3 .comp-col:nth-child(3){ border-top-color:var(--teal); }
+  .comp-col h3{ font-size:.9rem; margin:0 0 .55rem; color:var(--ink); }
+  .comp-col ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:.38rem; }
+  .comp-col li{ font-size:.77rem; line-height:1.4; padding-left:1.05rem; position:relative; color:var(--ink-soft); }
+  .comp-col li::before{ content:"—"; position:absolute; left:0; color:var(--orange); }
+  .comp-col p.lead{ margin:0 0 .5rem; font-size:.78rem; color:var(--ink-faint); font-weight:700; text-transform:uppercase; letter-spacing:.03em; }
+
+  /* ordered steps */
+  ol.steps{ margin:.9rem 0 0; padding-left:1.2rem; color:var(--ink-soft); font-size:.85rem; line-height:1.55; max-width:68ch; }
+  ol.steps li::marker{ color:var(--orange); font-weight:700; }
+  ol.steps li strong{ color:var(--ink); }
+  ol.steps li{ margin-bottom:.32rem; }
+
+  /* stat / cifras */
+  .stat-row{ display:flex; gap:1.4rem; margin-top:1rem; flex-wrap:wrap; }
+  .stat{ min-width:160px; }
+  .stat .amount{ font-size:1.9rem; font-weight:700; color:var(--orange); line-height:1; }
+  .stat.alt .amount{ color:var(--berry); }
+  .stat p{ margin:.35rem 0 0; font-size:.78rem; color:var(--ink); font-weight:700; }
+  .fine-stats{ display:flex; gap:1rem; margin-top:1rem; flex-wrap:wrap; }
+  .fine-stat{ background:var(--surface); border:1px solid var(--berry); border-radius:4px; padding:.8rem 1.1rem; flex:1; min-width:200px; }
+  .fine-stat .amount{ font-size:1.4rem; font-weight:700; color:var(--berry); }
+  .fine-stat p{ margin:.22rem 0 0; font-size:.73rem; color:var(--ink-soft); line-height:1.4; }
+
+  /* corpus table */
+  table.corpus-table{ width:100%; border-collapse:collapse; margin-top:1rem; font-size:.8rem; max-width:70ch; }
+  table.corpus-table th, table.corpus-table td{ padding:.38rem .65rem; border-bottom:1px solid var(--line); text-align:left; font-variant-numeric:tabular-nums; }
+  table.corpus-table th{ font-size:.64rem; text-transform:uppercase; color:var(--ink-faint); letter-spacing:.03em; font-weight:700; }
+  table.corpus-table td:first-child{ color:var(--ink); }
+
+  /* activity / lab slides */
+  .slide.activity{ background:#FFF4E7; }
+  .activity-tag{
+    font-size:.72rem; letter-spacing:.04em; text-transform:uppercase;
+    color:#fff; background:var(--amber); padding:.26rem .72rem; border-radius:20px; display:inline-block; margin-bottom:.85rem; font-weight:700;
+  }
+  .activity ol{ margin:.9rem 0 0; padding-left:1.2rem; color:var(--ink); font-size:.92rem; line-height:1.6; max-width:70ch; }
+  .activity ol li::marker{ color:var(--amber); font-weight:700; }
+
+  /* recap */
+  .recap-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:.85rem; position:relative; z-index:2; }
+  .recap-card{ background:rgba(255,255,255,.55); border-radius:4px; padding:.95rem 1.05rem; border-top:3px solid var(--orange); }
+  .recap-card:nth-child(2){ border-top-color:var(--navy); }
+  .recap-card:nth-child(3){ border-top-color:var(--teal); }
+  .recap-card h3{ font-size:.9rem; color:var(--ink); margin:0 0 .35rem; }
+  .recap-card p{ font-size:.76rem; color:var(--ink-soft); margin:0; line-height:1.45; }
+  .next-note{
+    margin-top:1.3rem; font-size:.8rem; color:var(--ink-soft); position:relative; z-index:2;
+    border-left:3px solid var(--orange); padding-left:1rem; max-width:70ch;
+  }
+
+  /* bibliography */
+  .biblio-list{ display:flex; flex-direction:column; gap:.6rem; margin-top:.75rem; }
+  .biblio-item{ background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:.75rem 1.05rem; }
+  .biblio-item .b-title{ font-weight:700; font-size:.87rem; color:var(--ink); }
+  .biblio-item .b-meta{ font-size:.64rem; color:var(--orange); margin-top:.15rem; font-weight:700; }
+  .biblio-item .b-use{ font-size:.75rem; color:var(--ink-soft); margin-top:.32rem; line-height:1.4; }
+  .biblio-item.extra{ opacity:.65; }
+
+  /* ---------- chrome: progress / nav / banner ---------- */
+  #progress{ position:fixed; top:0; left:0; height:3px; background:var(--orange); z-index:50; transition:width .25s ease; }
+  #controls{
+    position:fixed; bottom:1.1rem; right:1.4rem; z-index:50; display:flex; gap:.5rem; align-items:center; font-size:.75rem;
+  }
+  #controls button{
+    background:var(--surface); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+    padding:.45rem .7rem; cursor:pointer; box-shadow:var(--shadow); font-family:inherit;
+  }
+  #controls button:hover{ background:var(--surface-2); }
+  #controls button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+  #counter{ background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:.45rem .7rem; color:var(--ink-soft); box-shadow:var(--shadow); }
+
+  #hint{
+    position:fixed; top:1.1rem; left:1.4rem; right:1.4rem; z-index:60; max-width:600px;
+    background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:.9rem 1.1rem;
+    box-shadow:var(--shadow); font-size:.83rem; color:var(--ink-soft); display:flex; gap:.8rem; align-items:flex-start;
+  }
+  #hint strong{ color:var(--ink); }
+  #hint button{ margin-left:auto; background:none; border:none; color:var(--ink-faint); font-size:.9rem; cursor:pointer; }
+
+  @media screen and (max-width:900px){
+    .agenda-grid, .case-grid, .compare, .recap-grid, .example-grid{ grid-template-columns:1fr; }
+    .pipeline{ flex-direction:column; }
+    .arrow{ transform:rotate(90deg); }
+  }
+
+  /* ---------- print: @page MUST stay top-level, not nested in @media print ---------- */
+
+
+
+
+  /* ---------- ajustes de legibilidad y de impresión (2026-09-01) ---------- */
+  /* Escala global: todo el CSS del deck está en rem. */
+  html{ font-size:21px; }
+
+  /* Sin fondos decorativos: se retira el motivo de anillos concéntricos. */
+  .ring{ display:none !important; }
+  .slide.title, .slide.divider, .slide.closing{ border-left:10px solid var(--orange); }
+
+  /* Los titulares van atados a vw y no los reescala el font-size de la raíz. */
+  .slide.title h1{ font-size:clamp(2rem,5.2vw,4rem); }
+  .slide.content h2{ font-size:clamp(1.5rem,3.1vw,2.5rem); margin-bottom:1rem; }
+  .divider h2{ font-size:clamp(1.6rem,3.8vw,3rem); }
+  .eyebrow{ font-size:.7rem; }
+
+  /* El logotipo fijo invadía la columna de contenido y se solapaba con el
+     epígrafe en las diapositivas de contenido alto. */
+  #brandmark{ width:58px; }
+  .slide{ padding-left:7.2vw; padding-right:7.2vw; }
+  .slide .idx{ right:7.2vw; }
+
+  /* La cita compartía la esquina inferior derecha con el número de diapositiva y,
+     con la tipografía mayor, también invadía el texto del cuerpo. Se libera la
+     esquina llevando el número arriba, se ensancha la cita para que ocupe menos
+     líneas y se reserva espacio inferior en las diapositivas que llevan cita. */
+  .slide .idx{ top:22px; bottom:auto; right:7.2vw; }
+  .cite{ right:7.2vw; bottom:4.2%; max-width:58%; }
+  .slide:has(.cite){ padding-bottom:8vh; }
+
+  /* .slide y #deck usaban 100vw, que incluye el ancho de la barra de scroll
+     vertical del contenedor: eso provocaba 15px de desbordamiento horizontal y
+     una barra de scroll inferior al proyectar. */
+  #deck{ width:100%; }
+  .slide{ width:100%; }
+
+  @page{ size:1280px 720px; margin:0; }
+  @media print{
+    /* El body es casi negro en pantalla: al imprimir asomaría por encima y por
+       debajo de la diapositiva si el papel es más alto de 720px. */
+    html,body{ height:auto; background:#FFFFFF; }
+    #deck{ overflow:visible; height:auto; scroll-snap-type:none; }
+    .slide{
+      width:1280px; height:720px; page-break-after:always; break-after:page;
+      scroll-snap-align:none;
+    }
+    .slide:last-child{ page-break-after:auto; break-after:auto; }
+    #progress, #controls, #hint{ display:none !important; }
+  }
+</style>
+
+<div id="progress" style="width:0%"></div>
+<div id="brandmark">
+  <svg viewBox="0 0 457.39 248.73" fill="currentColor">
+    <path d="m118.72,118.06c-4.88,1.91-10.81,3.44-16.65,3.44-13.01,0-22.28-7.95-22.28-21.05s8.22-21.62,20.85-21.62c6.12,0,11.67,1.53,17.41,4.69l1.43-14.45c-6.41-1.91-13.01-3.44-19.8-3.44-22.01,0-38.27,11.57-38.27,34.82,0,25.26,20.57,34.25,38.36,34.25,9.08,0,14.74-1.44,19.81-2.68l-.86-13.96Z"/>
+    <path d="m194.3,66.78h-17.79v38.46c0,8.8-2.39,16.26-11.48,16.26s-11.48-7.46-11.48-16.26v-38.46h-17.8v41.42c0,18.27,11.87,26.5,29.28,26.5s29.27-8.23,29.27-26.5v-41.42Z"/>
+    <polygon points="255.91 112.13 255.72 112.13 233.14 66.77 210.47 66.77 210.47 133.55 226.82 133.55 226.25 87.92 226.45 87.92 249.79 133.55 271.89 133.55 271.89 66.77 255.62 66.77 255.91 112.13"/>
+    <path d="m369.07,93.79v-14.39h26.89v-12.63h-44.68v66.78h17.79v-26.88h19.21c4.25,0,7.7-3.45,7.7-7.7v-5.18h-26.91Z"/>
+    <path d="m335.11,120.92h-29.25v-14.21h21.56c4.25,0,7.7-3.45,7.7-7.7v-5.22h-29.25v-14.39h29.25v-12.63h-47.05v66.78h47.05v-12.63Z"/>
+    <path d="m85.04,170.88c0,4.78-2.38,7.42-6.69,7.42s-6.8-2.7-6.8-7.6v-15.65h-4.88v15.83c0,7.45,4.45,12.08,11.61,12.08s11.64-4.6,11.64-12.3v-15.61h-4.88v15.83Z"/>
+    <polygon points="120.02 173.6 105.44 155.05 101.26 155.05 101.26 182.55 106.06 182.55 106.06 163.53 121.05 182.55 124.83 182.55 124.83 155.05 120.02 155.05 120.02 173.6"/>
+    <rect x="136.83" y="155.05" width="4.88" height="27.51"/>
+    <polygon points="164.8 175.4 156.4 155.05 151.01 155.05 162.83 182.74 166.7 182.74 178.52 155.05 173.24 155.05 164.8 175.4"/>
+    <polygon points="192.45 171 206.36 171 206.36 166.38 192.45 166.38 192.45 159.67 208 159.67 208 155.05 187.57 155.05 187.57 182.55 208.19 182.55 208.19 177.93 192.45 177.93 192.45 171"/>
+    <path d="m240.7,163.63c0-2.24-.8-4.28-2.26-5.74-1.83-1.83-4.66-2.84-7.96-2.84h-11.97v27.51h4.88v-9.91h5.79l7.4,9.91h6.04l-8.13-10.81c3.92-1.22,6.21-4.15,6.21-8.12Zm-17.31-3.92h6.87c1.66,0,5.52.39,5.52,4.1,0,2.58-2.18,4.25-5.56,4.25h-6.83v-8.35Z"/>
+    <path d="m261.74,166.44c-5.69-1.22-6.13-2.42-6.13-4.05,0-1.84,1.82-3.12,4.43-3.12,2.46,0,4.6.81,6.73,2.54l.8.66,2.89-3.82-.76-.61c-2.89-2.32-5.85-3.36-9.59-3.36-5.44,0-9.38,3.35-9.38,8.03,0,5.54,4.49,7.28,9.36,8.34,5.41,1.14,5.84,2.38,5.84,3.94,0,1.99-1.88,3.33-4.68,3.33-3.11,0-5.45-.97-8.08-3.35l-.77-.69-3.08,3.65.73.65c3.31,2.96,6.84,4.33,11.09,4.33,5.72,0,9.71-3.38,9.71-8.29,0-5.5-4.86-7.27-9.1-8.19Z"/>
+    <rect x="281.49" y="155.05" width="4.88" height="27.51"/>
+    <path d="m308.22,155.05h-9.86v27.51h9.86c8.43,0,14.55-5.78,14.55-13.83s-6.12-13.68-14.55-13.68Zm9.57,13.83c0,5.31-3.93,9.02-9.57,9.02h-4.98v-18.19h4.98c5.63,0,9.57,3.74,9.57,9.17Z"/>
+    <path d="m341.51,154.86l-12.53,27.69h5.15l3.02-6.74h12.58l2.99,6.74h5.3l-12.53-27.69h-3.99Zm-2.33,16.36l4.28-9.56,4.26,9.56h-8.54Z"/>
+    <path d="m376.89,155.05h-9.86v27.51h9.86c8.43,0,14.55-5.78,14.55-13.83s-6.12-13.68-14.55-13.68Zm9.57,13.83c0,5.31-3.93,9.02-9.57,9.02h-4.98v-18.19h4.98c5.63,0,9.57,3.74,9.57,9.17Z"/>
+  </svg>
+</div>
+<div id="pagefooter"><span class="tick"></span>Taller — Repositorio y entorno de trabajo</div>
+<div id="hint">
+  <span>📄 Para exportar a <strong>PDF</strong> (Chrome o Edge): Ctrl/Cmd+P → Guardar como PDF → Diseño <strong>Horizontal</strong> → Márgenes <strong>Ninguno</strong> → Escala 100%. Si el tamaño de papel no se ajusta solo, recarga la página (F5) y vuelve a abrir la impresión.</span>
+  <button id="hint-close" aria-label="Cerrar aviso">✕</button>
+</div>
+<div id="controls">
+  <button id="prev" aria-label="Diapositiva anterior">←</button>
+  <span id="counter">1 / 8</span>
+  <button id="next" aria-label="Siguiente diapositiva">→</button>
+  <button id="full" aria-label="Pantalla completa">⛶</button>
+</div>
+
+<div id="deck">
+
+  <section class="slide title">
+    <p class="eyebrow">Grado en Ciencia de Datos · PLN y sus aplicaciones en marketing</p>
+    <h1>Taller: repositorio y entorno de trabajo</h1>
+    <p class="sub">Al terminar la sesión, cada equipo debe tener el repositorio del proyecto operativo, con los dos miembros trabajando sobre él.</p>
+    <div class="idx">1 / 8</div>
+  </section>
+
+  <section class="slide content">
+    <p class="eyebrow">Taller</p>
+    <h2>Los seis pasos de hoy</h2>
+    <div class="case-grid">
+      <div class="case-card">
+        <h3>1 · Crear el repositorio</h3>
+        <p>Uno de los dos lo crea, privado, y añade como colaboradores al compañero y a la profesora.</p>
+        <span class="tag">10 min</span>
+      </div>
+      <div class="case-card">
+        <h3>2 · Copiar la estructura</h3>
+        <p>La plantilla trae carpetas, <code>.gitignore</code>, <code>requirements.txt</code> y el notebook de comprobación.</p>
+        <span class="tag">10 min</span>
+      </div>
+      <div class="case-card">
+        <h3>3 · Rellenar el README</h3>
+        <p>Equipo, problema y sistema que se propone construir. Es el borrador de la propuesta.</p>
+        <span class="tag">10 min</span>
+      </div>
+      <div class="case-card">
+        <h3>4 · El ciclo completo</h3>
+        <p>Rama, cambio, pull request, revisión del compañero e integración. Una vez entera.</p>
+        <span class="tag">15 min</span>
+      </div>
+      <div class="case-card">
+        <h3>5 · El entorno</h3>
+        <p>Colab o Codespaces, y el notebook de comprobación ejecutado sin errores.</p>
+        <span class="tag">10 min</span>
+      </div>
+      <div class="case-card">
+        <h3>6 · Lista de comprobación</h3>
+        <p>Siete puntos que hay que poder marcar antes de salir del aula.</p>
+        <span class="tag">5 min</span>
+      </div>
+    </div>
+    <p class="agenda-note">Los pasos están escritos en <code>TALLER.md</code>, dentro de la plantilla.</p>
+    <div class="idx">2 / 8</div>
+  </section>
+
+  <section class="slide content">
+    <p class="eyebrow">Paso 1</p>
+    <h2>Crear el repositorio</h2>
+    <div class="compare cols-2">
+      <div class="comp-col">
+        <p class="lead">Lo hace una sola persona</p>
+        <ul>
+          <li><strong>New repository</strong> en GitHub.</li>
+          <li>Nombre: <code>pln-marketing-apellidos</code>, sin espacios ni acentos.</li>
+          <li>Visibilidad: <strong>privado</strong>.</li>
+          <li>Marcad <em>Add a README file</em>.</li>
+        </ul>
+      </div>
+      <div class="comp-col">
+        <p class="lead">Y después, colaboradores</p>
+        <ul>
+          <li><code>Settings</code> → <code>Collaborators</code> → <em>Add people</em>.</li>
+          <li>El <strong>otro miembro</strong> del equipo, con permiso de escritura.</li>
+          <li>La <strong>profesora</strong>, con permiso de escritura.</li>
+          <li>La invitación hay que <strong>aceptarla</strong>: hasta entonces no se puede tocar nada.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="agenda-note">Quien no tenga cuenta de GitHub, que la cree ahora con el <strong>correo de la universidad</strong>, que es el que da acceso al paquete de estudiante.</p>
+    <div class="idx">3 / 8</div>
+  </section>
+
+  <section class="slide content">
+    <p class="eyebrow">Paso 2</p>
+    <h2>La estructura del repositorio</h2>
+    <p class="body-text">Las tres capas de datos son las mismas que vimos ayer en el modelo de infraestructura, más una carpeta de muestra que sí se versiona.</p>
+    <div class="layers">
+      <div class="layer"><span class="tag">data/raw</span><p>Capa bruta: los datos tal como llegan. <strong>No se sube al repositorio.</strong></p></div>
+      <div class="layer"><span class="tag">data/sample</span><p>Muestra pequeña y anonimizada. <strong>Sí se sube</strong>, para que el proyecto se pueda reproducir.</p></div>
+      <div class="layer"><span class="tag">data/clean</span><p>Capa limpia: sin duplicados, formatos estandarizados. No se sube.</p></div>
+      <div class="layer"><span class="tag">data/analytic</span><p>Capa analítica: agregados y resultados. No se sube.</p></div>
+      <div class="layer"><span class="tag">docs</span><p><code>bitacora.md</code>: el registro de decisiones. De aquí sale la memoria final.</p></div>
+    </div>
+    <p class="agenda-note">Los datos crudos quedan fuera por tamaño y porque pueden contener datos personales, incluso en un repositorio privado.</p>
+    <div class="idx">4 / 8</div>
+  </section>
+
+  <section class="slide content">
+    <p class="eyebrow">Paso 4</p>
+    <h2>El ciclo que repetiréis todo el curso</h2>
+    <div class="pipeline">
+      <div class="pipe-box"><div class="t">Rama</div><span class="s">se trabaja fuera de la principal</span></div>
+      <div class="arrow">→</div>
+      <div class="pipe-box"><div class="t">Cambio</div><span class="s">se edita y se confirma</span></div>
+      <div class="arrow">→</div>
+      <div class="pipe-box"><div class="t">Pull request</div><span class="s">se propone integrar</span></div>
+      <div class="arrow">→</div>
+      <div class="pipe-box"><div class="t">Revisión</div><span class="s">la hace el otro miembro</span></div>
+      <div class="arrow">→</div>
+      <div class="pipe-box"><div class="t">Integración</div><span class="s">entra en la rama principal</span></div>
+    </div>
+    <p class="body-text" style="margin-top:1.2rem;">Hoy lo hacéis una vez entera, con la primera entrada de la bitácora: lo hace <strong>el miembro que no creó el repositorio</strong> y revisa el otro.</p>
+    <p class="agenda-note"><strong>Por qué así y no subiendo cambios directamente:</strong> el historial de commits documenta el trabajo de cada uno, y la revisión obliga a que ambos conozcan todo el proyecto. En la defensa final se pregunta a cualquiera de los dos por cualquier parte.</p>
+    <div class="idx">5 / 8</div>
+  </section>
+
+  <section class="slide content">
+    <p class="eyebrow">Paso 5</p>
+    <h2>El entorno: GitHub Codespaces</h2>
+    <p class="body-text">El proyecto se desarrolla en el repositorio, así que el entorno también. Codespaces abre un entorno completo en el navegador, sin instalar nada en vuestro equipo.</p>
+    <ol class="steps" style="margin-top:1.2rem;">
+      <li>En el repositorio, botón verde <code>Code</code> → pestaña <strong>Codespaces</strong> → <em>Create codespace on main</em>.</li>
+      <li>Cuando abra, en la terminal: <code>pip install -r requirements.txt</code>.</li>
+      <li>Abrid y ejecutad <code>notebooks/00_comprobacion_entorno.ipynb</code>.</li>
+      <li>Los cambios se confirman desde la pestaña de control de versiones, sin salir del navegador.</li>
+    </ol>
+    <p class="agenda-note">El notebook debe terminar con <strong>"Entorno correcto"</strong>. Si alguna librería sale como FALTA, el propio notebook indica el comando para instalarla.</p>
+    <div class="idx">6 / 8</div>
+  </section>
+
+  <section class="slide content">
+    <p class="eyebrow">Norma</p>
+    <h2>Las claves no se suben nunca al repositorio</h2>
+    <p class="body-text">Un token es una contraseña. Una vez subido <strong>queda en el historial de git aunque se borre en el commit siguiente</strong>, y cualquiera con acceso al repositorio puede recuperarlo.</p>
+    <div class="compare cols-2" style="margin-top:1.1rem;">
+      <div class="comp-col">
+        <p class="lead">Cómo se hace bien</p>
+        <ul>
+          <li>Las claves van en un fichero <code>.env</code>.</li>
+          <li><code>.gitignore</code> excluye <code>.env</code>: ya viene configurado en la plantilla.</li>
+          <li>Se copia <code>.env.example</code> a <code>.env</code> y se rellena.</li>
+        </ul>
+      </div>
+      <div class="comp-col">
+        <p class="lead">Si se sube una por error</p>
+        <ul>
+          <li><strong>Dadla por comprometida.</strong></li>
+          <li>Revocadla en la plataforma que la emitió y generad otra.</li>
+          <li>Borrarla del repositorio <strong>no basta</strong>.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="idx">7 / 8</div>
+  </section>
+
+  <section class="slide activity">
+    <span class="activity-tag">Antes de salir</span>
+    <h2>Lista de comprobación</h2>
+    <ol>
+      <li>El repositorio existe y es <strong>privado</strong>.</li>
+      <li>Los dos miembros y la profesora tenéis acceso, y las invitaciones están <strong>aceptadas</strong>.</li>
+      <li>La estructura de carpetas está subida.</li>
+      <li>El <code>README.md</code> tiene, al menos, equipo, problema y sistema.</li>
+      <li>Hay <strong>una pull request creada, revisada y fusionada</strong>.</li>
+      <li>El notebook de comprobación se ejecuta sin errores.</li>
+      <li>En el historial aparecen commits de <strong>las dos personas</strong>.</li>
+    </ol>
+    <div class="idx">8 / 8</div>
+  </section>
+
+
+
+</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const deck = document.getElementById('deck');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const total = slides.length;
+  let current = 0;
+
+  // Se recuerda la diapositiva actual para no volver a la primera al recargar.
+  // sessionStorage y no localStorage: F5 mantiene la posición, pero abrir el deck
+  // en una pestaña nueva (proyectarlo en clase) empieza siempre en la 1.
+  const SLIDE_KEY = 'taller-github-slide';
+  let restoring = true;
+
+  function remember(i){
+    if (restoring) return;
+    try { sessionStorage.setItem(SLIDE_KEY, String(i)); } catch(e) {}
+  }
+
+  function update(i){
+    current = Math.max(0, Math.min(total - 1, i));
+    counter.textContent = (current + 1) + " / " + total;
+    progress.style.width = ((current + 1) / total * 100) + "%";
+    remember(current);
+  }
+
+  function goTo(i){
+    slides[Math.max(0, Math.min(total - 1, i))].scrollIntoView({behavior:'smooth'});
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && e.intersectionRatio > 0.6){
+        update(slides.indexOf(e.target));
+      }
+    });
+  }, {root: deck, threshold: [0.6]});
+  slides.forEach(s => io.observe(s));
+
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('full').addEventListener('click', () => {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+    else document.exitFullscreen();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){ e.preventDefault(); goTo(current + 1); }
+    if (['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); goTo(current - 1); }
+  });
+
+  const hint = document.getElementById('hint');
+  let seen = null;
+  try { seen = localStorage.getItem('taller-github-hint-seen'); } catch(e) {}
+  if (seen) hint.style.display = 'none';
+  document.getElementById('hint-close').addEventListener('click', () => {
+    hint.style.display = 'none';
+    try { localStorage.setItem('taller-github-hint-seen', '1'); } catch(e) {}
+  });
+
+  // El navegador restaura por su cuenta el scroll de #deck y pelea con el salto.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  let start = 0;
+  try {
+    const saved = parseInt(sessionStorage.getItem(SLIDE_KEY), 10);
+    if (!isNaN(saved) && saved >= 0 && saved < total) start = saved;
+  } catch(e) {}
+
+  update(start);
+  if (start > 0){
+    // Salto instantáneo, sin animación, y repetido en el frame siguiente porque
+    // el IntersectionObserver dispara sobre la diapositiva 1 al cargar.
+    const jump = () => {
+      slides[start].scrollIntoView({behavior:'instant', block:'start'});
+      update(start);
+    };
+    jump();
+    requestAnimationFrame(jump);
+    window.addEventListener('load', jump, {once:true});
+  }
+  // Hasta aquí no se guarda nada, para que la restauración no se sobrescriba.
+  setTimeout(() => { restoring = false; }, 500);
+})();
+</script>
