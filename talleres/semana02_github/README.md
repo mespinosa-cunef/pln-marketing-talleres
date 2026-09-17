@@ -45,7 +45,7 @@ Esto es lo que estáis copiando y por qué:
 | `.gitignore` | Impide subir claves y datos crudos. No lo toquéis. |
 | `.env.example` | Plantilla para vuestras claves de API. |
 | `requirements.txt` | Las librerías, con versión fijada. |
-| `notebooks/` | Los notebooks, numerados en orden de ejecución. |
+| `notebooks/` | Donde van los notebooks de los talleres. Cada semana se descarga el que toque. |
 | `data/raw`, `clean`, `analytic` | Las tres capas de la clase de ayer. **No se suben.** |
 | `data/sample/` | Una muestra pequeña que **sí** se sube, para que el proyecto se pueda reproducir. |
 | `docs/bitacora.md` | El registro de decisiones. De aquí sale la memoria. |

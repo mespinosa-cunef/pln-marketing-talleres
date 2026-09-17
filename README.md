@@ -9,23 +9,33 @@ Curso 2026-27 · María Soledad Espinosa Ruiz
 
 ## Cómo se usa
 
-Los talleres son las sesiones de una hora de los jueves. Cada uno tiene su guía en
-`talleres/`, y los notebooks que se ejecutan están en `plantilla_proyecto/notebooks/`.
+Los talleres son las sesiones de una hora de los jueves. Tres carpetas, cada una con un
+cometido:
 
-**Para los equipos del proyecto:** copiad el contenido de `plantilla_proyecto/` a vuestro
-repositorio. Es la estructura sobre la que se trabaja todo el semestre.
+- **`notebooks/`** — lo que se ejecuta en cada taller. Es lo que hay que descargar.
+- **`talleres/`** — la guía de cada sesión: qué hay que hacer y qué hay que entregar.
+- **`plantilla_proyecto/`** — el esqueleto del repositorio de cada equipo. Se copió una vez,
+  en el taller de la semana 2, y no se vuelve a tocar.
+
+**Cada semana:** descargad el notebook que toque de `notebooks/` y colocadlo en la carpeta
+`notebooks/` de vuestro propio repositorio. Ahí es donde se ejecuta, porque al lado tiene
+`data/` y `requirements.txt`.
 
 ---
 
 ## Contenido
 
 ```
-plantilla_proyecto/     La estructura que copia cada equipo a su repositorio
+notebooks/              Los notebooks de los talleres, en orden de ejecución
+├── 00_comprobacion_entorno.ipynb    Semana 2
+└── 01_preprocesamiento.ipynb        Semana 3
+
+plantilla_proyecto/     El esqueleto del repositorio de cada equipo
 ├── README.md               Portada del proyecto; se evalúa en cada hito
 ├── requirements.txt        Librerías con versión fijada
 ├── .gitignore              Impide subir claves y datos crudos
 ├── .env.example            Plantilla para las claves de API
-├── notebooks/              Los notebooks, numerados en orden de ejecución
+├── notebooks/              Aquí van los notebooks que descarguéis
 ├── data/                   Capas raw · sample · clean · analytic
 └── docs/bitacora.md        Registro de decisiones; de aquí sale la memoria
 

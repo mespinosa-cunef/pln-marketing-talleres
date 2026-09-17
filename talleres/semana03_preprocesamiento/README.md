@@ -1,7 +1,7 @@
 # Taller · Preprocesamiento del corpus
 
-Una hora. Se trabaja sobre `plantilla_proyecto/notebooks/01_preprocesamiento.ipynb`, en
-Codespaces y dentro del repositorio de vuestro equipo.
+Una hora. Se trabaja sobre `notebooks/01_preprocesamiento.ipynb`, en Codespaces y dentro del
+repositorio de vuestro equipo.
 
 Continúa el bloque 2.1 del Tema 2.
 
@@ -25,9 +25,10 @@ bitácora.
 
 ## Antes de empezar
 
-En la terminal del codespace:
+Descargad el notebook a vuestro repositorio. En la terminal del codespace:
 
 ```bash
+wget https://raw.githubusercontent.com/mespinosa-cunef/pln-marketing-talleres/main/notebooks/01_preprocesamiento.ipynb -P notebooks/
 pip install -r requirements.txt
 ```
 
