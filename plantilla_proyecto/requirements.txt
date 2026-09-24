@@ -11,5 +11,6 @@ python-dotenv==1.0.1
 jupyter==1.1.1
 
 # El modelo de espanol de spaCy no se instala desde aqui. Una vez, en la terminal:
-#   python -m spacy download es_core_news_sm
-# El notebook 01 lo hace solo si falta.
+#   python -m spacy download es_core_news_sm     # taller 01: sin vectores de palabra
+#   python -m spacy download es_core_news_md     # taller 02: 20.000 vectores de 300 dim.
+# Los notebooks los descargan solos si faltan.
