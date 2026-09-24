@@ -32,6 +32,10 @@ La primera celda descarga **`es_core_news_md`**, que es el modelo de spaCy que s
 de palabra. El `es_core_news_sm` del taller anterior tiene **cero vectores** y no sirve aquí.
 Tarda un par de minutos: lanzadla nada más abrir el notebook.
 
+La comparación mantiene visibles las decisiones de preparación: BoW y TF-IDF conservan los
+tokens que reconoce `scikit-learn`; la línea base de embeddings excluye las stopwords de spaCy.
+Los resultados deben interpretarse teniendo en cuenta esa diferencia.
+
 ---
 
 ## Las diez secciones
