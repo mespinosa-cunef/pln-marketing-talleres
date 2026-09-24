@@ -28,7 +28,8 @@ cometido:
 ```
 notebooks/              Los notebooks de los talleres, en orden de ejecución
 ├── 00_comprobacion_entorno.ipynb    Semana 2
-└── 01_preprocesamiento.ipynb        Semana 3
+├── 01_preprocesamiento.ipynb        Semana 3
+└── 02_representaciones.ipynb        Semana 4
 
 plantilla_proyecto/     El esqueleto del repositorio de cada equipo
 ├── README.md               Portada del proyecto; se evalúa en cada hito
@@ -41,7 +42,8 @@ plantilla_proyecto/     El esqueleto del repositorio de cada equipo
 
 talleres/               Una carpeta por sesión, con su guía
 ├── semana02_github/         Repositorio y entorno de trabajo
-└── semana03_preprocesamiento/   Preprocesamiento del corpus
+├── semana03_preprocesamiento/   Preprocesamiento del corpus
+└── semana04_representaciones/  Comparación de representaciones
 ```
 
 ## Talleres
@@ -50,6 +52,7 @@ talleres/               Una carpeta por sesión, con su guía
 |---|---|---|
 | 2 | Repositorio y entorno de trabajo | [guía](talleres/semana02_github/README.md) · `notebooks/00_comprobacion_entorno.ipynb` |
 | 3 | Preprocesamiento del corpus | [guía](talleres/semana03_preprocesamiento/README.md) · `notebooks/01_preprocesamiento.ipynb` |
+| 4 | Comparación de representaciones | [guía](talleres/semana04_representaciones/README.md) · `notebooks/02_representaciones.ipynb` |
 
 ---
 
